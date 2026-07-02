@@ -150,6 +150,20 @@
     margin-top: 1.25em;
   }
 
+  .page-content .kg-width-wide {
+    width: min(100vw - 48px, 980px);
+    max-width: none;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .page-content .kg-width-full {
+    width: min(100vw - 32px, var(--container));
+    max-width: none;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+
   .page-content h2,
   .page-content h3,
   .page-content h4 {
@@ -254,17 +268,19 @@
 <main class="site-main">
   {{#post}}
     <article class="page-article {{post_class}}">
-      <header class="page-header">
-        <h1 class="page-title">{{title}}</h1>
-        {{#if custom_excerpt}}
-          <p class="page-excerpt">{{custom_excerpt}}</p>
-        {{/if}}
-      </header>
+      {{#if @page.show_title_and_feature_image}}
+        <header class="page-header">
+          <h1 class="page-title">{{title}}</h1>
+          {{#if custom_excerpt}}
+            <p class="page-excerpt">{{custom_excerpt}}</p>
+          {{/if}}
+        </header>
 
-      {{#if feature_image}}
-        <figure class="page-feature-image">
-          <img src="{{feature_image}}" alt="{{title}}">
-        </figure>
+        {{#if feature_image}}
+          <figure class="page-feature-image">
+            <img src="{{feature_image}}" alt="{{title}}">
+          </figure>
+        {{/if}}
       {{/if}}
 
       <section class="page-content">
