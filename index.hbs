@@ -1,0 +1,673 @@
+{{!< default}}
+
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;600;700&family=Noto+Sans:wght@500;600;700&family=Noto+Serif+SC:wght@400;500;600&family=Noto+Serif:wght@400;500;600&display=swap");
+
+  :root {
+    --bg-main: #FAFAF7;
+    --bg-section: #F4F1EC;
+    --text-main: #1A1A18;
+    --text-muted: #6B6B5F;
+    --accent: #8B6F5C;
+    --border-soft: #E8E4DE;
+    --card-bg: #FFFFFF;
+    --placeholder: #DDD7CE;
+    --shadow-soft: 0 18px 40px rgba(82, 69, 58, 0.09);
+    --container: 1080px;
+    --radius: 14px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg-main);
+    color: var(--text-main);
+    font-family: "Noto Serif SC", "Noto Serif", Georgia, serif;
+    font-size: 16px;
+    line-height: 1.8;
+    text-rendering: optimizeLegibility;
+  }
+
+  :lang(en) {
+    font-family: "Noto Serif", Georgia, serif;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  h1,
+  h2,
+  h3,
+  nav,
+  .button,
+  button,
+  input,
+  .logo,
+  .meta {
+    font-family: "Noto Sans SC", "Noto Sans", Arial, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+
+  h1 {
+    max-width: 760px;
+    margin-bottom: 18px;
+    font-size: clamp(32px, 4vw, 36px);
+    line-height: 1.35;
+    letter-spacing: 0;
+  }
+
+  h2 {
+    margin-bottom: 28px;
+    font-size: 24px;
+    line-height: 1.4;
+    letter-spacing: 0;
+  }
+
+  h3 {
+    margin-bottom: 10px;
+    font-size: clamp(18px, 2vw, 20px);
+    line-height: 1.45;
+    letter-spacing: 0;
+  }
+
+  p {
+    color: var(--text-muted);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--accent);
+  }
+
+  img,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  .container {
+    width: min(calc(100% - 48px), var(--container));
+    margin-inline: auto;
+  }
+
+  .button,
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 20px;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    background: var(--accent);
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    white-space: nowrap;
+  }
+
+  .button:hover,
+  button:hover {
+    color: #FFFFFF;
+    background: #765D4D;
+    box-shadow: 0 10px 24px rgba(139, 111, 92, 0.22);
+    transform: translateY(-1px);
+  }
+
+  .button:active,
+  button:active {
+    transform: translateY(0);
+  }
+
+  .button.secondary {
+    border-color: transparent;
+    background: transparent;
+    color: var(--accent);
+    box-shadow: none;
+  }
+
+  .button.secondary:hover {
+    background: rgba(139, 111, 92, 0.08);
+    color: var(--accent);
+  }
+
+  .meta {
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .card {
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    background: var(--card-bg);
+    box-shadow: 0 10px 28px rgba(82, 69, 58, 0.06);
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-3px);
+  }
+
+  .placeholder {
+    width: 100%;
+    border-radius: 10px;
+    background:
+      linear-gradient(135deg, rgba(139, 111, 92, 0.10), rgba(255, 255, 255, 0.55)),
+      var(--placeholder);
+  }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid rgba(232, 228, 222, 0.86);
+    background: rgba(250, 250, 247, 0.94);
+    backdrop-filter: blur(14px);
+  }
+
+  header .container {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 28px;
+    min-height: 72px;
+  }
+
+  .logo {
+    color: var(--text-main);
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  header .button {
+    min-height: 40px;
+    padding-inline: 18px;
+    font-size: 14px;
+  }
+
+  .site-main section {
+    padding: 76px 0;
+  }
+
+  /* HERO Section */
+  #hero {
+    border-bottom: 1px solid var(--border-soft);
+    background: var(--bg-main);
+  }
+
+  #hero .container {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+    align-items: center;
+    gap: 56px;
+    min-height: 430px;
+  }
+
+  #hero p {
+    max-width: 560px;
+    margin-bottom: 26px;
+    font-size: 18px;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .author-card {
+    padding: 28px;
+  }
+
+  .avatar {
+    width: 76px;
+    height: 76px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(139, 111, 92, 0.20);
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 36% 30%, rgba(255, 255, 255, 0.95) 0 12%, transparent 13%),
+      linear-gradient(145deg, #D9CFC3, #BFAE9C);
+  }
+
+  .author-name {
+    margin-bottom: 8px;
+    color: var(--text-main);
+    font-family: "Noto Sans SC", "Noto Sans", Arial, sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .author-card p {
+    margin-bottom: 0;
+    font-size: 15px;
+  }
+
+  /* Featured Section */
+  #featured {
+    background: var(--bg-main);
+  }
+
+  #featured .grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 24px;
+  }
+
+  #featured article {
+    padding: 24px;
+  }
+
+  #featured .large .placeholder,
+  #featured .large .featured-image-link {
+    aspect-ratio: 16 / 9;
+    margin-bottom: 22px;
+  }
+
+  .featured-image-link,
+  .post-card-image-link {
+    display: block;
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--placeholder);
+  }
+
+  .featured-image,
+  .post-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #featured .stack {
+    display: grid;
+    gap: 24px;
+  }
+
+  #featured .stack article {
+    display: flex;
+    min-height: 180px;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #featured .wide {
+    margin-top: 24px;
+    padding: 28px;
+  }
+
+  #featured .wide p,
+  #featured .large p,
+  #recent article p {
+    max-width: 68ch;
+  }
+
+  /* Recent Posts Section */
+  #recent {
+    padding-top: 18px;
+    background: var(--bg-main);
+  }
+
+  #recent .list {
+    display: grid;
+    gap: 18px;
+  }
+
+  #recent article {
+    display: grid;
+    grid-template-columns: 168px 1fr;
+    gap: 24px;
+    align-items: center;
+    padding: 20px;
+  }
+
+  #recent .thumb,
+  #recent .post-card-image-link {
+    aspect-ratio: 4 / 3;
+    min-height: 120px;
+  }
+
+  #recent h3 {
+    margin-bottom: 6px;
+  }
+
+  #recent p {
+    margin-bottom: 10px;
+  }
+
+  .more-link {
+    margin-top: 26px;
+  }
+
+  /* Newsletter Section */
+  #newsletter {
+    background: var(--bg-section);
+  }
+
+  #newsletter .inner {
+    width: min(100%, 820px);
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  #newsletter p {
+    max-width: 560px;
+    margin-inline: auto;
+    margin-bottom: 26px;
+  }
+
+  form {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    max-width: 560px;
+    margin-inline: auto;
+  }
+
+  input[type="email"] {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 18px;
+    border: 1px solid var(--border-soft);
+    border-radius: 999px;
+    background: #FFFFFF;
+    color: var(--text-main);
+    font-size: 15px;
+    outline: none;
+  }
+
+  input[type="email"]::placeholder {
+    color: #8A887E;
+  }
+
+  input[type="email"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(139, 111, 92, 0.16);
+  }
+
+  .newsletter-button {
+    font-family: "Noto Sans SC", "Noto Sans", Arial, sans-serif;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border-soft);
+    background: #F7F4EF;
+    padding: 36px 0;
+    text-align: center;
+  }
+
+  footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px 26px;
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+    color: var(--text-muted);
+    font-family: "Noto Sans SC", "Noto Sans", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  footer p {
+    margin-bottom: 0;
+    font-size: 13px;
+  }
+
+  @media (max-width: 767px) {
+    .container {
+      width: min(calc(100% - 32px), var(--container));
+    }
+
+    header .container {
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      padding: 14px 0;
+    }
+
+    nav {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    nav ul {
+      justify-content: flex-start;
+      gap: 18px;
+    }
+
+    header .button {
+      padding-inline: 14px;
+    }
+
+    .site-main section {
+      padding: 56px 0;
+    }
+
+    #hero .container {
+      grid-template-columns: 1fr;
+      gap: 34px;
+      min-height: auto;
+    }
+
+    #hero p {
+      font-size: 16px;
+    }
+
+    .actions,
+    form {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .button,
+    button {
+      width: 100%;
+    }
+
+    #featured .grid {
+      grid-template-columns: 1fr;
+    }
+
+    #featured .stack article {
+      min-height: auto;
+    }
+
+    #recent article {
+      grid-template-columns: 1fr;
+    }
+
+    #recent .thumb,
+    #recent .post-card-image-link {
+      min-height: 150px;
+    }
+  }
+</style>
+
+<main class="site-main">
+  <!-- HERO Section -->
+  <section id="hero">
+    <div class="container">
+      <div>
+        <h1>用 AI 做实战，写成看得懂的深度文章</h1>
+        <p>AI 技术科普 · 实战工作流 · 双语长文</p>
+        <div class="actions" aria-label="订阅与样刊入口">
+          <a class="button" href="#newsletter">每周一篇实战长文 · 免费订阅</a>
+          <a class="button secondary" href="#featured">查看样刊</a>
+        </div>
+      </div>
+      <aside class="author-card card" aria-label="作者信息">
+        <div class="avatar" aria-hidden="true"></div>
+        <p class="author-name">琴疏</p>
+        <p>AI 实战科普 / cozai.net 运营者。长期记录工具试验、工作流拆解与真实项目复盘。</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Featured Section -->
+  <section id="featured">
+    <div class="container">
+      <h2>值得一读</h2>
+
+      {{#get "posts" filter="featured:true" include="tags,authors" limit="4"}}
+        {{#if posts}}
+          <div class="grid">
+            {{#foreach posts limit="1"}}
+              <article class="large card {{post_class}}">
+                {{#if feature_image}}
+                  <a class="featured-image-link" href="{{url}}" aria-label="{{title}}">
+                    <img class="featured-image" src="{{feature_image}}" alt="{{title}}" loading="lazy">
+                  </a>
+                {{else}}
+                  <div class="placeholder" aria-hidden="true"></div>
+                {{/if}}
+                <h3><a href="{{url}}">{{title}}</a></h3>
+                <p>{{excerpt words="32"}}</p>
+                <div class="meta">
+                  {{#if primary_tag}}{{primary_tag.name}} · {{/if}}{{reading_time}} min
+                </div>
+              </article>
+            {{/foreach}}
+
+            <div class="stack" aria-label="精选短文">
+              {{#foreach posts from="2" to="3"}}
+                <article class="card {{post_class}}">
+                  <h3><a href="{{url}}">{{title}}</a></h3>
+                  <p>{{excerpt words="32"}}</p>
+                  <div class="meta">
+                    {{#if primary_tag}}{{primary_tag.name}} · {{/if}}{{reading_time}} min
+                  </div>
+                </article>
+              {{/foreach}}
+            </div>
+          </div>
+
+          {{#foreach posts from="4" to="4"}}
+            <article class="wide card {{post_class}}">
+              <h3><a href="{{url}}">{{title}}</a></h3>
+              <p>{{excerpt words="32"}}</p>
+              <div class="meta">
+                {{#if primary_tag}}{{primary_tag.name}} · {{/if}}{{reading_time}} min
+              </div>
+            </article>
+          {{/foreach}}
+        {{/if}}
+      {{/get}}
+    </div>
+  </section>
+
+  <!-- Recent Posts Section -->
+  <section id="recent">
+    <div class="container">
+      <h2>最近写了</h2>
+      <div class="list">
+        {{#foreach posts}}
+          <article class="post-card card {{post_class}}">
+            {{#if feature_image}}
+              <a href="{{url}}" class="post-card-image-link">
+                <img class="post-card-image" src="{{feature_image}}" alt="{{title}}" loading="lazy">
+              </a>
+            {{else}}
+              <div class="thumb placeholder" aria-hidden="true"></div>
+            {{/if}}
+            <div class="post-card-content">
+              <h3><a href="{{url}}">{{title}}</a></h3>
+              <p>{{excerpt words="32"}}</p>
+              <div class="post-card-meta meta">
+                {{#if primary_tag}}
+                  <span class="post-card-tag">{{primary_tag.name}}</span>
+                {{/if}}
+                <span class="post-card-reading-time">{{reading_time}} min</span>
+                <span class="post-card-date">{{date format="YYYY-MM-DD"}}</span>
+              </div>
+            </div>
+          </article>
+        {{/foreach}}
+      </div>
+
+      <div class="more-link">
+        <a class="button secondary" href="{{@site.url}}/page/2/">查看全部文章</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section id="newsletter">
+    <div class="container">
+      <div class="inner">
+        <h2>每周一封 · AI 实战长文</h2>
+        <p>把视频里说不完的细节写给你看，不打扰，随时退订。</p>
+        <form action="#" method="post">
+          <label for="email" class="visually-hidden">邮箱地址</label>
+          <input id="email" type="email" name="email" placeholder="you@example.com">
+          <button class="newsletter-button" type="button" data-portal="signup">
+            免费订阅 Newsletter
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <ul>
+      <li><a href="{{@site.url}}/about/">关于</a></li>
+      <li><a href="#" target="_blank" rel="noopener">B站频道</a></li>
+      <li><a href="https://cozai.net" target="_blank" rel="noopener">cozai.net</a></li>
+      <li><a href="{{@site.url}}/rss/">RSS</a></li>
+      <li><a href="mailto:you@example.com">联系</a></li>
+    </ul>
+    <p>&copy; {{date format="YYYY"}} {{@site.title}}. 保留所有权利。</p>
+  </div>
+</footer>
