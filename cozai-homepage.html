@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>琴疏研社 | AI 实战科普频道</title>
+  <meta name="description" content="AI 实战科普频道的知识分享独立站首页静态骨架。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;600;700&family=Noto+Sans:wght@500;600;700&family=Noto+Serif+SC:wght@400;500;600&family=Noto+Serif:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #FAFAF7;
+      --bg-section: #F4F1EC;
+      --text-main: #1A1A18;
+      --text-muted: #6B6B5F;
+      --accent: #8B6F5C;
+      --border-soft: #E8E4DE;
+      --card-bg: #FFFFFF;
+      --placeholder: #DDD7CE;
+      --shadow-soft: 0 18px 40px rgba(82, 69, 58, 0.09);
+      --container: 1080px;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: "Noto Serif SC", "Noto Serif", Georgia, serif;
+      font-size: 16px;
+      line-height: 1.8;
+      text-rendering: optimizeLegibility;
+    }
+
+    :lang(en) {
+      font-family: "Noto Serif", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    h1,
+    h2,
+    h3,
+    nav,
+    .button,
+    button,
+    input,
+    .logo,
+    .meta {
+      font-family: "Noto Sans SC", "Noto Sans", Arial, sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin-bottom: 18px;
+      font-size: clamp(32px, 4vw, 36px);
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-bottom: 28px;
+      font-size: 24px;
+      line-height: 1.4;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: clamp(18px, 2vw, 20px);
+      line-height: 1.45;
+      letter-spacing: 0;
+    }
+
+    p {
+      color: var(--text-muted);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(calc(100% - 48px), var(--container));
+      margin-inline: auto;
+    }
+
+    .button,
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 20px;
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      white-space: nowrap;
+    }
+
+    .button:hover,
+    button:hover {
+      color: #FFFFFF;
+      background: #765D4D;
+      box-shadow: 0 10px 24px rgba(139, 111, 92, 0.22);
+      transform: translateY(-1px);
+    }
+
+    .button:active,
+    button:active {
+      transform: translateY(0);
+    }
+
+    .button.secondary {
+      border-color: transparent;
+      background: transparent;
+      color: var(--accent);
+      box-shadow: none;
+    }
+
+    .button.secondary:hover {
+      background: rgba(139, 111, 92, 0.08);
+      color: var(--accent);
+    }
+
+    .meta {
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .card {
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      background: var(--card-bg);
+      box-shadow: 0 10px 28px rgba(82, 69, 58, 0.06);
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-soft);
+      transform: translateY(-3px);
+    }
+
+    .placeholder {
+      width: 100%;
+      border-radius: 10px;
+      background:
+        linear-gradient(135deg, rgba(139, 111, 92, 0.10), rgba(255, 255, 255, 0.55)),
+        var(--placeholder);
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(232, 228, 222, 0.86);
+      background: rgba(250, 250, 247, 0.94);
+      backdrop-filter: blur(14px);
+    }
+
+    header .container {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 28px;
+      min-height: 72px;
+    }
+
+    .logo {
+      color: var(--text-main);
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: center;
+      gap: 26px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: var(--text-muted);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    header .button {
+      min-height: 40px;
+      padding-inline: 18px;
+      font-size: 14px;
+    }
+
+    main section {
+      padding: 76px 0;
+    }
+
+    /* HERO Section */
+    #hero {
+      border-bottom: 1px solid var(--border-soft);
+      background: var(--bg-main);
+    }
+
+    #hero .container {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+      align-items: center;
+      gap: 56px;
+      min-height: 430px;
+    }
+
+    #hero p {
+      max-width: 560px;
+      margin-bottom: 26px;
+      font-size: 18px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .author-card {
+      padding: 28px;
+    }
+
+    .avatar {
+      width: 76px;
+      height: 76px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(139, 111, 92, 0.20);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 36% 30%, rgba(255, 255, 255, 0.95) 0 12%, transparent 13%),
+        linear-gradient(145deg, #D9CFC3, #BFAE9C);
+    }
+
+    .author-name {
+      margin-bottom: 8px;
+      color: var(--text-main);
+      font-family: "Noto Sans SC", "Noto Sans", Arial, sans-serif;
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .author-card p {
+      margin-bottom: 0;
+      font-size: 15px;
+    }
+
+    /* Featured Section */
+    #featured {
+      background: var(--bg-main);
+    }
+
+    #featured .grid {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 24px;
+    }
+
+    #featured article {
+      padding: 24px;
+    }
+
+    #featured .large .placeholder {
+      aspect-ratio: 16 / 9;
+      margin-bottom: 22px;
+    }
+
+    #featured .stack {
+      display: grid;
+      gap: 24px;
+    }
+
+    #featured .stack article {
+      display: flex;
+      min-height: 180px;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #featured .wide {
+      margin-top: 24px;
+      padding: 28px;
+    }
+
+    #featured .wide p,
+    #featured .large p,
+    #recent article p {
+      max-width: 68ch;
+    }
+
+    /* Recent Posts Section */
+    #recent {
+      padding-top: 18px;
+      background: var(--bg-main);
+    }
+
+    #recent .list {
+      display: grid;
+      gap: 18px;
+    }
+
+    #recent article {
+      display: grid;
+      grid-template-columns: 168px 1fr;
+      gap: 24px;
+      align-items: center;
+      padding: 20px;
+    }
+
+    #recent .thumb {
+      aspect-ratio: 4 / 3;
+      min-height: 120px;
+    }
+
+    #recent h3 {
+      margin-bottom: 6px;
+    }
+
+    #recent p {
+      margin-bottom: 10px;
+    }
+
+    .more-link {
+      margin-top: 26px;
+    }
+
+    /* Newsletter Section */
+    #newsletter {
+      background: var(--bg-section);
+    }
+
+    #newsletter .inner {
+      width: min(100%, 820px);
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    #newsletter p {
+      max-width: 560px;
+      margin-inline: auto;
+      margin-bottom: 26px;
+    }
+
+    form {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      max-width: 560px;
+      margin-inline: auto;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+      background: #FFFFFF;
+      color: var(--text-main);
+      font-size: 15px;
+      outline: none;
+    }
+
+    input[type="email"]::placeholder {
+      color: #8A887E;
+    }
+
+    input[type="email"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(139, 111, 92, 0.16);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-soft);
+      background: #F7F4EF;
+      padding: 36px 0;
+      text-align: center;
+    }
+
+    footer ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px 26px;
+      margin: 0 0 14px;
+      padding: 0;
+      list-style: none;
+      color: var(--text-muted);
+      font-family: "Noto Sans SC", "Noto Sans", Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    footer p {
+      margin-bottom: 0;
+      font-size: 13px;
+    }
+
+    @media (max-width: 767px) {
+      .container {
+        width: min(calc(100% - 32px), var(--container));
+      }
+
+      header .container {
+        grid-template-columns: 1fr auto;
+        gap: 14px;
+        padding: 14px 0;
+      }
+
+      nav {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+
+      nav ul {
+        justify-content: flex-start;
+        gap: 18px;
+      }
+
+      header .button {
+        padding-inline: 14px;
+      }
+
+      main section {
+        padding: 56px 0;
+      }
+
+      #hero .container {
+        grid-template-columns: 1fr;
+        gap: 34px;
+        min-height: auto;
+      }
+
+      #hero p {
+        font-size: 16px;
+      }
+
+      .actions,
+      form {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .button,
+      button {
+        width: 100%;
+      }
+
+      #featured .grid {
+        grid-template-columns: 1fr;
+      }
+
+      #featured .stack article {
+        min-height: auto;
+      }
+
+      #recent article {
+        grid-template-columns: 1fr;
+      }
+
+      #recent .thumb {
+        min-height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <a class="logo" href="#">琴疏研社</a>
+      <nav aria-label="主导航">
+        <ul>
+          <li><a href="#featured">文章</a></li>
+          <li><a href="#hero">关于</a></li>
+          <li><a href="#">B站</a></li>
+        </ul>
+      </nav>
+      <a class="button" href="#newsletter">订阅 Newsletter</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO Section -->
+    <section id="hero">
+      <div class="container">
+        <div>
+          <h1>用 AI 做实战，写成看得懂的深度文章</h1>
+          <p>AI 技术科普 · 实战工作流 · 双语长文</p>
+          <div class="actions" aria-label="订阅与样刊入口">
+            <a class="button" href="#newsletter">每周一篇实战长文 · 免费订阅</a>
+            <a class="button secondary" href="#featured">查看样刊</a>
+          </div>
+        </div>
+        <aside class="author-card card" aria-label="作者信息">
+          <div class="avatar" aria-hidden="true"></div>
+          <p class="author-name">琴疏</p>
+          <p>AI 实战科普 / cozai.net 运营者。长期记录工具试验、工作流拆解与真实项目复盘。</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Featured Section -->
+    <section id="featured">
+      <div class="container">
+        <h2>值得一读</h2>
+        <div class="grid">
+          <article class="large card">
+            <div class="placeholder" aria-hidden="true"></div>
+            <h3>把一个 AI 工具真正接进日常工作，需要先拆掉哪些幻觉</h3>
+            <p>从任务边界、输入质量到复盘节奏，记录一次把 AI 从演示带进真实流程的完整路径。</p>
+            <p>不谈万能提示词，只谈如何让工具在具体工作里稳定地产出价值。</p>
+            <div class="meta">AI 工作流 · 12 分钟阅读</div>
+          </article>
+
+          <div class="stack" aria-label="精选短文">
+            <article class="card">
+              <h3>双语写作里，AI 最容易帮倒忙的三个地方</h3>
+              <p>从语气漂移到概念误译，整理面向中英文读者的校对清单。</p>
+              <div class="meta">Bilingual Writing · 7 分钟阅读</div>
+            </article>
+            <article class="card">
+              <h3>为什么我更愿意把教程写成长文，而不是做成碎片技巧</h3>
+              <p>深度文章的价值，不是信息更多，而是上下文更完整。</p>
+              <div class="meta">知识产品 · 6 分钟阅读</div>
+            </article>
+          </div>
+        </div>
+
+        <article class="wide card">
+          <h3>从视频脚本到文章专栏：一次 AI 实战内容的生产复盘</h3>
+          <p>这篇文章梳理选题、资料整理、初稿、事实核验和发布后的评论反馈，作为后续内容系统的样刊模板。</p>
+          <div class="meta">内容系统 · 10 分钟阅读</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Recent Posts Section -->
+    <section id="recent">
+      <div class="container">
+        <h2>最近写了</h2>
+        <div class="list">
+          <article class="card">
+            <div class="thumb placeholder" aria-hidden="true"></div>
+            <div>
+              <h3>如何判断一个 AI 自动化流程是不是真的省时间</h3>
+              <p>用一次真实工作流拆解，区分演示里的顺滑和长期使用里的维护成本。</p>
+              <p>附一套适合个人创作者的时间账本记录方式。</p>
+              <div class="meta">AI Automation · 9 分钟阅读 · 2026-07-01</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="thumb placeholder" aria-hidden="true"></div>
+            <div>
+              <h3>把长视频整理成文章时，我会保留哪些细节</h3>
+              <p>不是逐字稿，也不是摘要，而是把论证链和关键例子重新组织出来。</p>
+              <p>适合需要把视频内容沉淀为可检索知识库的创作者参考。</p>
+              <div class="meta">内容沉淀 · 8 分钟阅读 · 2026-06-28</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="thumb placeholder" aria-hidden="true"></div>
+            <div>
+              <h3>一个好用的 Prompt，通常不是一句话，而是一套检查表</h3>
+              <p>提示词的稳定性来自任务分解、输入约束和验收标准，而不是更华丽的措辞。</p>
+              <p>文末给出可替换的通用模板，方便接入不同写作场景。</p>
+              <div class="meta">Prompt Design · 11 分钟阅读 · 2026-06-23</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="thumb placeholder" aria-hidden="true"></div>
+            <div>
+              <h3>中英文读者都能读懂的技术文章，标题该怎么写</h3>
+              <p>标题要给出清晰场景，也要避免把复杂概念压成过度营销的口号。</p>
+              <p>这里记录我在专栏选题里反复使用的一组标题判断标准。</p>
+              <div class="meta">Editorial · 7 分钟阅读 · 2026-06-19</div>
+            </div>
+          </article>
+        </div>
+
+        <div class="more-link">
+          <a class="button secondary" href="#">查看全部文章</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section id="newsletter">
+      <div class="container">
+        <div class="inner">
+          <h2>每周一封 · AI 实战长文</h2>
+          <p>把视频里说不完的细节写给你看，不打扰，随时退订。</p>
+          <form action="#" method="post">
+            <label for="email" class="visually-hidden">邮箱地址</label>
+            <input id="email" type="email" name="email" placeholder="you@example.com" required>
+            <button type="submit">订阅</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <ul>
+        <li><a href="#">关于</a></li>
+        <li><a href="#">B站频道</a></li>
+        <li><a href="#">cozai.net</a></li>
+        <li><a href="#">RSS</a></li>
+        <li><a href="#">联系</a></li>
+      </ul>
+      <p>© 2026 琴疏研社。保留所有权利。</p>
+    </div>
+  </footer>
+</body>
+</html>
