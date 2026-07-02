@@ -474,13 +474,15 @@
       </div>
 
       <section class="post-content">
-        {{content}}
+        {{{content}}}
       </section>
 
       <footer class="post-footer">
         {{#if tags}}
           <div class="post-tags">
-            {{tags separator=""}}
+            {{#foreach tags}}
+              <a class="post-tag" href="{{url}}">{{name}}</a>
+            {{/foreach}}
           </div>
         {{/if}}
 
@@ -496,24 +498,16 @@
     </article>
 
     {{#if primary_tag}}
-      {{#get "posts" filter="tag:{{primary_tag.slug}}+id:-{{id}}" include="tags,authors" limit="3"}}
-        {{#if posts}}
-          <section class="related-posts" aria-label="相关推荐">
-            <h2>相关推荐</h2>
-            <div class="related-grid">
-              {{#foreach posts}}
-                <article class="related-card card {{post_class}}">
-                  <h3><a href="{{url}}">{{title}}</a></h3>
-                  <p>{{excerpt words="20"}}</p>
-                  <div class="meta">
-                    {{#if primary_tag}}{{primary_tag.name}} · {{/if}}{{reading_time}} min
-                  </div>
-                </article>
-              {{/foreach}}
-            </div>
-          </section>
-        {{/if}}
-      {{/get}}
+      <section class="related-posts" aria-label="相关推荐">
+        <h2>相关推荐</h2>
+        <div class="related-grid">
+          <article class="related-card card">
+            <h3><a href="{{primary_tag.url}}">{{primary_tag.name}}</a></h3>
+            <p>更多同类文章整理在「{{primary_tag.name}}」标签页。</p>
+            <a class="button" href="{{primary_tag.url}}">查看更多同类文章</a>
+          </article>
+        </div>
+      </section>
     {{/if}}
   {{/post}}
 </main>
