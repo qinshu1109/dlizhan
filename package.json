@@ -1,0 +1,15 @@
+{
+  "name": "dlizhan",
+  "description": "A warm editorial Ghost theme for AI practice essays.",
+  "version": "1.0.0",
+  "engines": {
+    "ghost": ">=5.0.0"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "qinshu1109"
+  },
+  "config": {
+    "posts_per_page": 10
+  }
+}

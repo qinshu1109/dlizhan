@@ -227,7 +227,67 @@
 
   .reading-progress-placeholder,
   .toc-placeholder {
-    min-height: 1px;
+    width: min(100%, 760px);
+    margin-inline: auto;
+  }
+
+  .reading-progress {
+    overflow: hidden;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--bg-section);
+  }
+
+  .reading-progress-bar {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--accent);
+    transition: width 120ms ease-out;
+  }
+
+  .post-toc {
+    display: none;
+    padding: 18px 20px;
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    background: rgba(244, 241, 236, 0.58);
+  }
+
+  .post-toc.is-visible {
+    display: block;
+  }
+
+  .post-toc-title {
+    margin: 0 0 10px;
+    color: var(--text-main);
+    font-family: "Noto Sans SC", "Noto Sans", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .post-toc-list {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: "Noto Sans SC", "Noto Sans", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .post-toc-list a {
+    color: var(--text-muted);
+  }
+
+  .post-toc-list a:hover,
+  .post-toc-list a.is-active {
+    color: var(--accent);
+  }
+
+  .post-toc-level-h3 {
+    padding-left: 18px;
   }
 
   .post-content {
@@ -468,9 +528,13 @@
         </figure>
       {{/if}}
 
-      <div class="post-reading-tools" aria-hidden="true">
-        <div class="reading-progress-placeholder"></div>
-        <div class="toc-placeholder"></div>
+      <div class="post-reading-tools">
+        <div class="reading-progress-placeholder">
+          <div class="reading-progress" role="progressbar" aria-label="阅读进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="reading-progress-bar"></div>
+          </div>
+        </div>
+        <nav class="toc-placeholder post-toc" aria-label="文章目录"></nav>
       </div>
 
       <section class="post-content">
@@ -524,3 +588,93 @@
     <p>&copy; {{date format="YYYY"}} {{@site.title}}. 保留所有权利。</p>
   </div>
 </footer>
+
+<script>
+  (function () {
+    var article = document.querySelector(".post-article");
+    var content = document.querySelector(".post-content");
+    var progress = document.querySelector(".reading-progress");
+    var progressBar = document.querySelector(".reading-progress-bar");
+    var toc = document.querySelector(".post-toc");
+
+    if (!article || !content || !progress || !progressBar || !toc) {
+      return;
+    }
+
+    var headings = Array.prototype.slice.call(content.querySelectorAll("h2, h3"));
+
+    function slugify(text, index) {
+      return "section-" + index + "-" + text.trim().toLowerCase()
+        .replace(/[^\w\u4e00-\u9fa5]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    if (headings.length) {
+      var list = document.createElement("ol");
+      list.className = "post-toc-list";
+
+      var title = document.createElement("p");
+      title.className = "post-toc-title";
+      title.textContent = "目录";
+
+      headings.forEach(function (heading, index) {
+        if (!heading.id) {
+          heading.id = slugify(heading.textContent || "heading", index + 1);
+        }
+
+        var item = document.createElement("li");
+        item.className = "post-toc-level-" + heading.tagName.toLowerCase();
+
+        var link = document.createElement("a");
+        link.href = "#" + heading.id;
+        link.textContent = heading.textContent;
+
+        item.appendChild(link);
+        list.appendChild(item);
+      });
+
+      toc.appendChild(title);
+      toc.appendChild(list);
+      toc.classList.add("is-visible");
+    }
+
+    var tocLinks = Array.prototype.slice.call(toc.querySelectorAll("a"));
+
+    function updateProgress() {
+      var rect = content.getBoundingClientRect();
+      var viewport = window.innerHeight || document.documentElement.clientHeight;
+      var total = Math.max(content.scrollHeight - viewport * 0.65, 1);
+      var read = Math.min(Math.max(-rect.top, 0), total);
+      var percent = Math.round((read / total) * 100);
+
+      progressBar.style.width = percent + "%";
+      progress.setAttribute("aria-valuenow", String(percent));
+    }
+
+    function updateActiveHeading() {
+      if (!tocLinks.length) {
+        return;
+      }
+
+      var activeId = "";
+      headings.forEach(function (heading) {
+        if (heading.getBoundingClientRect().top <= 120) {
+          activeId = heading.id;
+        }
+      });
+
+      tocLinks.forEach(function (link) {
+        link.classList.toggle("is-active", link.getAttribute("href") === "#" + activeId);
+      });
+    }
+
+    function updateReadingTools() {
+      updateProgress();
+      updateActiveHeading();
+    }
+
+    updateReadingTools();
+    window.addEventListener("scroll", updateReadingTools, { passive: true });
+    window.addEventListener("resize", updateReadingTools);
+  })();
+</script>
